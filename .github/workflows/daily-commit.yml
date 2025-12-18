@@ -1,0 +1,43 @@
+name: Random Daily Motivation
+
+on:
+  schedule:
+    # Runs once a day at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows you to run it manually to test
+
+jobs:
+  daily-quote-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate Random Quotes
+        run: |
+          # Randomly pick how many commits to do today (1 to 3)
+          COMMIT_COUNT=$((1 + RANDOM % 3))
+          echo "Today we will do $COMMIT_COUNT commits."
+
+          for i in $(seq 1 $COMMIT_COUNT)
+          do
+            # Fetch a random quote
+            QUOTE_DATA=$(curl -s https://api.quotable.io/random)
+            QUOTE=$(echo $QUOTE_DATA | jq -r '.content')
+            AUTHOR=$(echo $QUOTE_DATA | jq -r '.author')
+            DATE=$(date +'%Y-%m-%d %H:%M')
+
+            # Append to the table
+            echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
+
+            # Git Commit
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add quotes.md
+            git commit -m "Daily Quote $i of $COMMIT_COUNT"
+            
+            # Small delay to ensure unique timestamps
+            sleep 2
+          done
+          
+          git push
