@@ -2,9 +2,8 @@ name: Random Daily Motivation
 
 on:
   schedule:
-    # Runs once a day at 00:00 UTC
     - cron: '0 0 * * *'
-  workflow_dispatch: # Allows you to run it manually to test
+  workflow_dispatch:
 
 jobs:
   daily-quote-job:
@@ -15,28 +14,37 @@ jobs:
 
       - name: Generate Random Quotes
         run: |
-          # Randomly pick how many commits to do today (1 to 3)
+          # 1. Create a local list of quotes to avoid API errors
+          QUOTES=(
+            "Believe you can and you're halfway there.|Theodore Roosevelt"
+            "Action is the foundational key to all success.|Pablo Picasso"
+            "Your limitation—it's only your imagination.|Anonymous"
+            "Push yourself, because no one else is going to do it for you.|Anonymous"
+            "Great things never come from comfort zones.|Anonymous"
+            "Dream it. Wish it. Do it.|Anonymous"
+            "Success doesn’t just find you. You have to go out and get it.|Anonymous"
+          )
+
+          # 2. Randomly pick how many commits to do (1 to 3)
           COMMIT_COUNT=$((1 + RANDOM % 3))
           echo "Today we will do $COMMIT_COUNT commits."
 
           for i in $(seq 1 $COMMIT_COUNT)
           do
-            # Fetch a random quote
-            QUOTE_DATA=$(curl -s https://api.quotable.io/random)
-            QUOTE=$(echo $QUOTE_DATA | jq -r '.content')
-            AUTHOR=$(echo $QUOTE_DATA | jq -r '.author')
+            # 3. Pick a random quote from our list
+            SELECTED=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
+            QUOTE=$(echo $SELECTED | cut -d'|' -f1)
+            AUTHOR=$(echo $SELECTED | cut -d'|' -f2)
             DATE=$(date +'%Y-%m-%d %H:%M')
 
-            # Append to the table
+            # 4. Append to table (Ensure quotes.md exists in your repo!)
             echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
 
-            # Git Commit
+            # 5. Git Commit
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
             git add quotes.md
-            git commit -m "Daily Quote $i of $COMMIT_COUNT"
-            
-            # Small delay to ensure unique timestamps
+            git commit -m "Automated Quote: $DATE"
             sleep 2
           done
           
