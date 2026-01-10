@@ -50,3 +50,4 @@
 | 2026-01-09 01:47 | Dream it. Wish it. Do it. | Anonymous |
 | 2026-01-09 01:47 | Believe you can and you're halfway there. | Theodore Roosevelt |
 | 2026-01-10 01:43 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
+| 2026-01-10 01:43 | Push yourself, because no one else is going to do it for you. | Anonymous |
