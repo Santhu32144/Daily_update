@@ -41,10 +41,10 @@ jobs:
             echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
 
             # 5. Git Commit
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
+            git config --local user.email "ssshininnsanthu32144@gmail.com"
+            git config --local user.name "Santhu32144"
             git add quotes.md
-            git commit -m "Automated Quote: $DATE"
+            git commit -m "Updated  Quote: $DATE"
             sleep 2
           done
           
