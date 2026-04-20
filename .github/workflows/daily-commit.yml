@@ -26,7 +26,7 @@ jobs:
           )
 
           # 2. Randomly pick how many commits to do (1 to 3)
-          COMMIT_COUNT=$((1 + RANDOM % 3))
+          COMMIT_COUNT=$((4 + RANDOM % 4))
           echo "Today we will do $COMMIT_COUNT commits."
 
           for i in $(seq 1 $COMMIT_COUNT)
@@ -45,7 +45,7 @@ jobs:
             git config --local user.name "Santhu32144"
             git add quotes.md
             git commit -m "Updated  Quote: $DATE"
-            sleep 2
+            sleep $((RANDOM % 30))
           done
           
           git push
