@@ -1,4 +1,4 @@
-name: Random Daily Motivation
+name: Daily Motivation Full Auto
 
 on:
   schedule:
@@ -6,46 +6,65 @@ on:
   workflow_dispatch:
 
 jobs:
-  daily-quote-job:
+  daily-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Generate Random Quotes
+      - name: Generate Quote + Update Streak + Update README
         run: |
-          # 1. Create a local list of quotes to avoid API errors
+          # Ensure files exist
+          touch quotes.md
+          if [ ! -f streak.txt ]; then echo "0" > streak.txt; fi
+
+          # ---------------------------------------
+          # 🎯 AI-LIKE Daily Generated Quote
+          # ---------------------------------------
           QUOTES=(
-            "Believe you can and you're halfway there.|Theodore Roosevelt"
-            "Action is the foundational key to all success.|Pablo Picasso"
-            "Your limitation—it's only your imagination.|Anonymous"
-            "Push yourself, because no one else is going to do it for you.|Anonymous"
-            "Great things never come from comfort zones.|Anonymous"
-            "Dream it. Wish it. Do it.|Anonymous"
-            "Success doesn’t just find you. You have to go out and get it.|Anonymous"
+            "Believe in yourself.|Anonymous"
+            "You are stronger than you think.|Anonymous"
+            "Every day is a fresh start.|Anonymous"
+            "Big journeys begin with small steps.|Anonymous"
+            "Push through the hard days.|Anonymous"
+            "Your success story begins today.|Anonymous"
+            "Dream. Believe. Achieve.|Anonymous"
+            "Be unstoppable. Be fearless.|Anonymous"
+            "You were born to win.|Anonymous"
           )
 
-          # 2. Randomly pick how many commits to do (1 to 3)
-          COMMIT_COUNT=$((4 + RANDOM % 4))
-          echo "Today we will do $COMMIT_COUNT commits."
+          SELECTED=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
+          QUOTE=$(echo $SELECTED | cut -d'|' -f1)
+          AUTHOR=$(echo $SELECTED | cut -d'|' -f2)
 
-          for i in $(seq 1 $COMMIT_COUNT)
-          do
-            # 3. Pick a random quote from our list
-            SELECTED=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
-            QUOTE=$(echo $SELECTED | cut -d'|' -f1)
-            AUTHOR=$(echo $SELECTED | cut -d'|' -f2)
-            DATE=$(date +'%Y-%m-%d %H:%M')
+          DATE=$(date +'%Y-%m-%d %H:%M')
 
-            # 4. Append to table (Ensure quotes.md exists in your repo!)
-            echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
+          # Add to quotes.md history
+          echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
 
-            # 5. Git Commit
-            git config --local user.email "ssshininnsanthu32144@gmail.com"
-            git config --local user.name "Santhu32144"
-            git add quotes.md
-            git commit -m "Updated  Quote: $DATE"
-            sleep $((RANDOM % 30))
-          done
-          
+          # ---------------------------------------
+          # 🔥 UPDATE STREAK
+          # ---------------------------------------
+          STREAK=$(cat streak.txt)
+          STREAK=$((STREAK + 1))
+          echo "$STREAK" > streak.txt
+
+          # ---------------------------------------
+          # 🔥 UPDATE README.md
+          # ---------------------------------------
+          awk -v quote="$QUOTE" -v streak="$STREAK" -v date="$DATE" '
+            /<!--QUOTE_START-->/ {print; getline; print quote; next}
+            /<!--STREAK_START-->/ {print; getline; print streak; next}
+            /<!--DATE_START-->/ {print; getline; print date; next}
+            {print}
+          ' README.md > temp.md && mv temp.md README.md
+
+          # ---------------------------------------
+          # Commit updates
+          # ---------------------------------------
+          git config --local user.email "ssshininnsanthu32144@gmail.com"
+          git config --local user.name "Santhu32144"
+
+          git add .
+          git commit -m "Auto-update: Quote + Streak + README ($DATE)" || echo "No changes"
+
           git push
