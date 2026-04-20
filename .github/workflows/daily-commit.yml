@@ -1,70 +1,149 @@
-name: Daily Motivation Full Auto
+name: Random Daily Motivation
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
-  daily-job:
+  daily-update:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Generate Quote + Update Streak + Update README
+      - name: Setup Git
         run: |
-          # Ensure files exist
-          touch quotes.md
-          if [ ! -f streak.txt ]; then echo "0" > streak.txt; fi
+          git config user.name "Santhu32144"
+          git config user.email "ssshininnsanthu32144@gmail.com"
 
-          # ---------------------------------------
-          # 🎯 AI-LIKE Daily Generated Quote
-          # ---------------------------------------
-          QUOTES=(
-            "Believe in yourself.|Anonymous"
-            "You are stronger than you think.|Anonymous"
-            "Every day is a fresh start.|Anonymous"
-            "Big journeys begin with small steps.|Anonymous"
-            "Push through the hard days.|Anonymous"
-            "Your success story begins today.|Anonymous"
-            "Dream. Believe. Achieve.|Anonymous"
-            "Be unstoppable. Be fearless.|Anonymous"
-            "You were born to win.|Anonymous"
-          )
+      - name: Prepare files
+        run: |
+          touch xp.txt streak.txt quotes.md daily_log.md README.md
 
-          SELECTED=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
-          QUOTE=$(echo $SELECTED | cut -d'|' -f1)
-          AUTHOR=$(echo $SELECTED | cut -d'|' -f2)
+      - name: Fetch Bangalore Weather
+        id: weather
+        run: |
+          RESPONSE=$(curl -s "https://api.open-meteo.com/v1/forecast?latitude=12.9716&longitude=77.5946&current_weather=true")
+          TEMP=$(echo "$RESPONSE" | jq '.current_weather.temperature')
+          DESC=$(echo "$RESPONSE" | jq '.current_weather.weathercode')
+          
+          # Simple weather descriptions
+          case $DESC in
+            0) WEATHER_TEXT="Clear sky";;
+            1) WEATHER_TEXT="Mainly clear";;
+            2) WEATHER_TEXT="Partly cloudy";;
+            3) WEATHER_TEXT="Overcast";;
+            *) WEATHER_TEXT="Weather changing";;
+          esac
 
-          DATE=$(date +'%Y-%m-%d %H:%M')
+          echo "temp=$TEMP" >> $GITHUB_OUTPUT
+          echo "desc=$WEATHER_TEXT" >> $GITHUB_OUTPUT
 
-          # Add to quotes.md history
-          echo "| $DATE | $QUOTE | $AUTHOR |" >> quotes.md
+      - name: Pick Time-Based Quote
+        id: quote
+        run: |
+          HOUR=$(date +%H)
+          if [ $HOUR -lt 12 ]; then
+            QUOTE="Rise and shine! Every morning is a new chance ⭐"
+          elif [ $HOUR -lt 17 ]; then
+            QUOTE="Keep going — you're doing better than you think 💪"
+          else
+            QUOTE="Relax! Nights are for dreams and recovery 🌙"
+          fi
 
-          # ---------------------------------------
-          # 🔥 UPDATE STREAK
-          # ---------------------------------------
-          STREAK=$(cat streak.txt)
+          echo "quote=$QUOTE" >> $GITHUB_OUTPUT
+
+      - name: Update Streak + XP
+        id: xpstreak
+        run: |
+          # Load or init values
+          XP=$(cat xp.txt 2>/dev/null || echo 0)
+          STREAK=$(cat streak.txt 2>/dev/null || echo 0)
+
+          # Add +1 streak per day
           STREAK=$((STREAK + 1))
-          echo "$STREAK" > streak.txt
 
-          # ---------------------------------------
-          # 🔥 UPDATE README.md
-          # ---------------------------------------
-          awk -v quote="$QUOTE" -v streak="$STREAK" -v date="$DATE" '
-            /<!--QUOTE_START-->/ {print; getline; print quote; next}
-            /<!--STREAK_START-->/ {print; getline; print streak; next}
-            /<!--DATE_START-->/ {print; getline; print date; next}
-            {print}
-          ' README.md > temp.md && mv temp.md README.md
+          # Add XP per commit later in the commit loop
+          echo "XP_BEFORE=$XP" >> $GITHUB_OUTPUT
+          echo "STREAK=$STREAK" >> $GITHUB_OUTPUT
 
-          # ---------------------------------------
-          # Commit updates
-          # ---------------------------------------
-          git config --local user.email "ssshininnsanthu32144@gmail.com"
-          git config --local user.name "Santhu32144"
+      - name: Make 4–8 random commits (with XP gain)
+        id: commitblock
+        run: |
+          COMMIT_COUNT=$((4 + RANDOM % 5))
+          echo "Will do $COMMIT_COUNT commits today."
 
+          XP=$(cat xp.txt)
+          
+          for i in $(seq 1 $COMMIT_COUNT); do
+            DATE=$(date "+%Y-%m-%d %H:%M:%S")
+            echo "Auto commit $i at $DATE" >> daily_log.md
+            echo "| $DATE | Commit #$i | XP +5 |" >> quotes.md
+
+            XP=$((XP + 5))
+
+            git add .
+            git commit -m "Daily commit #$i ($DATE)"
+            sleep $((3 + RANDOM % 12))
+          done
+
+          echo "$XP" > xp.txt
+
+      - name: Calculate Level + Badge
+        id: level
+        run: |
+          XP=$(cat xp.txt)
+          LEVEL=$(echo "scale=0; sqrt($XP/20)" | bc)
+          
+          # Badges
+          if [ $LEVEL -lt 5 ]; then BADGE="🌱 Beginner";
+          elif [ $LEVEL -lt 10 ]; then BADGE="🔥 Rising";
+          elif [ $LEVEL -lt 20 ]; then BADGE="⭐ Achiever";
+          else BADGE="👑 Legend";
+          fi
+
+          echo "level=$LEVEL" >> $GITHUB_OUTPUT
+          echo "badge=$BADGE" >> $GITHUB_OUTPUT
+
+      - name: Write new streak value
+        run: echo "${{ steps.xpstreak.outputs.STREAK }}" > streak.txt
+
+      - name: Update README
+        run: |
+          TEMP=${{ steps.weather.outputs.temp }}
+          WDESC=${{ steps.weather.outputs.desc }}
+          QUOTE=${{ steps.quote.outputs.quote }}
+          STREAK=${{ steps.xpstreak.outputs.STREAK }}
+          XP=$(cat xp.txt)
+          LEVEL=${{ steps.level.outputs.level }}
+          BADGE="${{ steps.level.outputs.badge }}"
+
+          cat > README.md <<EOF
+# 🌞 Daily Motivation — Automated for Jack
+
+## 📍 Bangalore Weather
+- **Temperature:** ${TEMP}°C  
+- **Condition:** ${WDESC}
+
+## 💬 Today’s Quote
+> ${QUOTE}
+
+## 🔥 Your Growth Stats  
+- **Streak:** ${STREAK} days  
+- **XP:** ${XP}  
+- **Level:** ${LEVEL}  
+- **Badge:** ${BADGE}
+
+## 📈 Analytics
+Dark theme animated chart coming soon...
+
+## 🤖 Auto-updated daily at midnight
+EOF
+
+      - name: Final Push
+        run: |
           git add .
-          git commit -m "Auto-update: Quote + Streak + README ($DATE)" || echo "No changes"
-
+          git commit -m "Daily auto-update [XP, streak, weather, quote]" || echo "No update"
           git push

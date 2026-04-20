@@ -1,41 +1,54 @@
-# 🚀 Daily Motivation Tracker
+# 🚀 Daily Motivation Dashboard
 
----
+<!--COLOR_START-->
+<div align="center" style="background: linear-gradient(90deg, #000000, #333333); padding: 20px; border-radius: 15px;">
+<!--COLOR_END-->
 
-## 🔥 Latest Quote
+## ✨ Today’s Quote
 <!--QUOTE_START-->
-No quote yet.
+Loading...
 <!--QUOTE_END-->
 
----
+## 🌦 Bangalore Weather
+<!--WEATHER_START-->
+Loading...
+<!--WEATHER_END-->
 
 ## 🔥 Current Streak
 <!--STREAK_START-->
 0
 <!--STREAK_END-->
 
+## 🎮 XP & Level
+<!--XP_START-->
+XP: 0 | Level: 0
+<!--XP_END-->
+
+## 🏅 Badge
+<!--BADGE_START-->
+None yet
+<!--BADGE_END-->
+
 ## 📅 Last Updated
 <!--DATE_START-->
-Not updated yet
+Loading...
 <!--DATE_END-->
 
----
-
-## 📊 Contribution Activity Graph
-![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=Santhu32144&theme=react-dark)
+</div>
 
 ---
 
-## 🔥 GitHub Streak Badge
-![GitHub Streak](https://streak-stats.demolab.com?user=Santhu32144&theme=dark&fire=DD2727)
+## 📊 Analytics Dashboard  
+[View Analytics](analytics/dashboard.md)
 
 ---
 
-## ✨ Animated Quote Banner  
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?size=24&center=true&width=600&lines=Stay+Motivated!;Consistency+is+Power!;Be+Better+Every+Day!;Keep+Pushing+Forward!">
-</p>
+## 🕹️ Contribution Graph  
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=Santhu32144&theme=react-dark&hide_border=true)
+
+## 🔥 Streak Badge  
+![Streak](https://streak-stats.demolab.com?user=Santhu32144&theme=dark)
 
 ---
 
-💛 _This README updates automatically every 24 hours!_
+Auto-updated every 24 hours. Stay consistent 💛
