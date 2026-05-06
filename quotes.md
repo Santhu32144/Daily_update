@@ -355,3 +355,4 @@
 | 2026-05-05 01:55 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-05-06 01:54 | Push yourself, because no one else is going to do it for you. | Anonymous |
 | 2026-05-06 01:54 | Dream it. Wish it. Do it. | Anonymous |
+| 2026-05-06 01:54 | Believe you can and you're halfway there. | Theodore Roosevelt |
