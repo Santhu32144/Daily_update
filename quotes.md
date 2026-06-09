@@ -581,3 +581,4 @@
 | 2026-06-09 02:05 | Great things never come from comfort zones. | Anonymous |
 | 2026-06-09 02:05 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
 | 2026-06-09 02:05 | Push yourself, because no one else is going to do it for you. | Anonymous |
+| 2026-06-09 02:05 | Believe you can and you're halfway there. | Theodore Roosevelt |
