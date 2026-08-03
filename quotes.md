@@ -943,3 +943,4 @@
 | 2026-08-03 01:51 | Believe you can and you're halfway there. | Theodore Roosevelt |
 | 2026-08-03 01:51 | Push yourself, because no one else is going to do it for you. | Anonymous |
 | 2026-08-03 01:51 | Dream it. Wish it. Do it. | Anonymous |
+| 2026-08-03 01:51 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
