@@ -985,3 +985,4 @@
 | 2026-08-09 00:55 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-08-09 00:55 | Great things never come from comfort zones. | Anonymous |
 | 2026-08-09 00:55 | Push yourself, because no one else is going to do it for you. | Anonymous |
+| 2026-08-09 00:55 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
