@@ -1037,3 +1037,4 @@
 | 2026-08-17 00:38 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
 | 2026-08-17 00:38 | Dream it. Wish it. Do it. | Anonymous |
 | 2026-08-17 00:38 | Dream it. Wish it. Do it. | Anonymous |
+| 2026-08-18 00:37 | Believe you can and you're halfway there. | Theodore Roosevelt |
