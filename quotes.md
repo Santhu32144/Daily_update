@@ -1075,3 +1075,4 @@
 | 2026-08-23 00:41 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-08-23 00:41 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
 | 2026-08-23 00:41 | Your limitation—it's only your imagination. | Anonymous |
+| 2026-08-23 00:41 | Believe you can and you're halfway there. | Theodore Roosevelt |
