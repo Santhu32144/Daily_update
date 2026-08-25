@@ -1086,3 +1086,4 @@
 | 2026-08-24 00:40 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
 | 2026-08-24 00:40 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-08-24 00:40 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
+| 2026-08-25 00:39 | Push yourself, because no one else is going to do it for you. | Anonymous |
