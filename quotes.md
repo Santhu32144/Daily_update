@@ -1098,3 +1098,4 @@
 | 2026-08-26 00:40 | Dream it. Wish it. Do it. | Anonymous |
 | 2026-08-26 00:40 | Believe you can and you're halfway there. | Theodore Roosevelt |
 | 2026-08-27 05:43 | Push yourself, because no one else is going to do it for you. | Anonymous |
+| 2026-08-27 05:43 | Believe you can and you're halfway there. | Theodore Roosevelt |
