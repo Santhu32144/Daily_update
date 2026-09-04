@@ -1155,3 +1155,4 @@
 | 2026-09-04 01:58 | Believe you can and you're halfway there. | Theodore Roosevelt |
 | 2026-09-04 01:58 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-09-04 01:58 | Believe you can and you're halfway there. | Theodore Roosevelt |
+| 2026-09-04 01:58 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
