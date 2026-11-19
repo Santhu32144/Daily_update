@@ -1652,3 +1652,4 @@
 | 2026-11-19 04:59 | Push yourself, because no one else is going to do it for you. | Anonymous |
 | 2026-11-19 04:59 | Your limitation—it's only your imagination. | Anonymous |
 | 2026-11-19 04:59 | Success doesn’t just find you. You have to go out and get it. | Anonymous |
+| 2026-11-19 04:59 | Believe you can and you're halfway there. | Theodore Roosevelt |
